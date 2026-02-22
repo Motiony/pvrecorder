@@ -1,0 +1,38 @@
+name: dotnet mnuget
+
+on:
+  push:
+    branches: [ 'feature/nuget' ]
+
+env:
+  PACKAGE_ID: MPvRecorder
+
+jobs:
+  build-nuget:
+    runs-on: ubuntu-slim
+    strategy:
+      matrix:
+        dotnet-version: [ '10.0.x' ]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }} 
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build Project
+        run: dotnet build binding/dotnet/PvRecorder/PvRecorder.csproj --configuration Release --no-restore
+
+      - name: Pack NuGet package
+        run: dotnet pack binding/dotnet/PvRecorder/PvRecorder.csproj --no-restore --no-build --configuration Release --output nupkg -p:PackageId=${{ env.PACKAGE_ID }}
+
+      - name: Upload NuGet artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: pvrecorder-nuget
+          path: nupkg/*.nupkg
