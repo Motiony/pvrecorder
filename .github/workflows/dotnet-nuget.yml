@@ -23,7 +23,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }} 
 
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore binding/dotnet/PvRecorder/PvRecorder.csproj
 
       - name: Build Project
         run: dotnet build binding/dotnet/PvRecorder/PvRecorder.csproj --configuration Release --no-restore

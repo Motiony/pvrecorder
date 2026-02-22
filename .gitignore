@@ -2,3 +2,6 @@
 build
 cmake-build-debug
 .DS_Store
+
+bin/
+obj/

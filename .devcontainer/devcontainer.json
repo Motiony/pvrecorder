@@ -1,0 +1,10 @@
+{
+  "name": "pvrecordercontainer",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--device=/dev/snd",
+    "--network=host"
+  ]
+}
