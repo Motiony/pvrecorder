@@ -1,10 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ItemGroup>
-		<Content Include="$(MSBuildThisFileDirectory)lib\**">
-			<PackagePath>content\picovoice\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
-			<Link>lib\%(RecursiveDir)%(Filename)%(Extension)</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<Visible>false</Visible>
-		</Content>
-	</ItemGroup>
+	<Target Name="CopyPvRecorderNativeLibs" AfterTargets="Build">
+		<ItemGroup>
+			<_PvNativeLibs Include="$(MSBuildThisFileDirectory)lib\**\*" />
+		</ItemGroup>
+		<Copy
+			SourceFiles="@(_PvNativeLibs)"
+			DestinationFiles="@(_PvNativeLibs->'$(OutDir)lib\%(RecursiveDir)%(Filename)%(Extension)')"
+			SkipUnchangedFiles="true"
+		/>
+	</Target>
 </Project>
